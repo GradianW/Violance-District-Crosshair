@@ -12,11 +12,12 @@ class CrosshairSettings:
     shape: str = "cross"               # cross, t_cross, dot, circle, circle_cross, chevron, x_mark
     color: str = "#00FF66"             # Main hex color
     opacity: int = 95                  # 10 to 100 (%)
-    size: int = 10                     # Line length or radius (2 to 60 px)
-    thickness: int = 2                 # Stroke thickness (1 to 15 px)
-    gap: int = 4                       # Center gap (0 to 40 px)
-    dot_enabled: bool = True           # Show center dot
-    dot_size: int = 2                  # Center dot radius (1 to 12 px)
+    scale: int = 100                   # Master scale percentage (20% to 200%)
+    size: int = 6                      # Line length or radius (1 to 60 px)
+    thickness: int = 1                 # Stroke thickness (1 to 15 px)
+    gap: int = 2                       # Center gap (-10 to 40 px)
+    dot_enabled: bool = False          # Show center dot
+    dot_size: int = 1                  # Center dot radius (1 to 12 px)
     outline_enabled: bool = True       # High-contrast outline
     outline_color: str = "#000000"     # Outline hex color
     outline_thickness: int = 1         # Outline stroke width (1 to 5 px)
@@ -37,15 +38,44 @@ class CrosshairSettings:
 
 
 DEFAULT_PRESETS: Dict[str, Dict[str, Any]] = {
+    "VD Micro Cross (Ultra Small)": CrosshairSettings(
+        shape="cross",
+        color="#00FF66",
+        opacity=95,
+        scale=60,
+        size=3,
+        thickness=1,
+        gap=1,
+        dot_enabled=False,
+        dot_size=1,
+        outline_enabled=True,
+        outline_color="#000000",
+        outline_thickness=1,
+    ).to_dict(),
     "VD Precision Cross (Default)": CrosshairSettings(
         shape="cross",
         color="#00FF66",
         opacity=95,
-        size=10,
-        thickness=2,
-        gap=4,
+        scale=85,
+        size=5,
+        thickness=1,
+        gap=2,
+        dot_enabled=False,
+        dot_size=1,
+        outline_enabled=True,
+        outline_color="#000000",
+        outline_thickness=1,
+    ).to_dict(),
+    "Pinpoint Micro Dot (1px)": CrosshairSettings(
+        shape="dot",
+        color="#00FFFF",
+        opacity=100,
+        scale=50,
+        size=2,
+        thickness=1,
+        gap=0,
         dot_enabled=True,
-        dot_size=2,
+        dot_size=1,
         outline_enabled=True,
         outline_color="#000000",
         outline_thickness=1,
@@ -54,11 +84,12 @@ DEFAULT_PRESETS: Dict[str, Dict[str, Any]] = {
         shape="t_cross",
         color="#00FFFF",
         opacity=95,
-        size=11,
-        thickness=2,
-        gap=4,
+        scale=85,
+        size=5,
+        thickness=1,
+        gap=2,
         dot_enabled=False,
-        dot_size=2,
+        dot_size=1,
         outline_enabled=True,
         outline_color="#000000",
         outline_thickness=1,
@@ -67,37 +98,26 @@ DEFAULT_PRESETS: Dict[str, Dict[str, Any]] = {
         shape="circle_cross",
         color="#FFCC00",
         opacity=85,
-        size=22,
-        thickness=2,
-        gap=8,
+        scale=90,
+        size=12,
+        thickness=1,
+        gap=4,
         dot_enabled=True,
-        dot_size=2,
+        dot_size=1,
         outline_enabled=True,
         outline_color="#000000",
         outline_thickness=1,
-    ).to_dict(),
-    "Minimalist Red Dot": CrosshairSettings(
-        shape="dot",
-        color="#FF2244",
-        opacity=100,
-        size=8,
-        thickness=2,
-        gap=0,
-        dot_enabled=True,
-        dot_size=4,
-        outline_enabled=True,
-        outline_color="#000000",
-        outline_thickness=2,
     ).to_dict(),
     "Tactical Chevron (^)": CrosshairSettings(
         shape="chevron",
         color="#FF00FF",
         opacity=95,
-        size=12,
-        thickness=2,
-        gap=2,
+        scale=80,
+        size=5,
+        thickness=1,
+        gap=1,
         dot_enabled=False,
-        dot_size=2,
+        dot_size=1,
         outline_enabled=True,
         outline_color="#000000",
         outline_thickness=1,

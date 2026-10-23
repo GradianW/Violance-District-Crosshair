@@ -1,5 +1,6 @@
 """Entry point for the Violence District (VD) Crosshair Overlay application."""
 
+import os
 import sys
 from PyQt6.QtWidgets import QApplication
 
@@ -9,12 +10,21 @@ from src.overlay import CrosshairOverlay
 from src.settings_ui import SettingsWindow
 
 
+def get_config_path() -> str:
+    """Resolve config.json next to the .exe (when frozen) or main.py."""
+    if getattr(sys, "frozen", False):
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_dir, "config.json")
+
+
 def main() -> int:
     app = QApplication(sys.argv)
     app.setApplicationName("VD Crosshair Overlay")
 
     # Initialize configuration and presets
-    config_manager = ConfigManager("config.json")
+    config_manager = ConfigManager(get_config_path())
 
     # Create click-through desktop overlay
     overlay = CrosshairOverlay(config_manager.settings)

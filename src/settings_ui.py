@@ -271,13 +271,17 @@ class SettingsWindow(QMainWindow):
         self.shape_combo.currentIndexChanged.connect(self._on_ui_changed)
         geom_layout.addRow("Reticle Shape:", self.shape_combo)
 
-        self.size_slider, self.size_spin = self._create_slider_row(2, 60)
+        self.scale_slider, self.scale_spin = self._create_slider_row(15, 200)
+        self.scale_spin.setSuffix("%")
+        geom_layout.addRow("Master Scale:", self._wrap_row(self.scale_slider, self.scale_spin))
+
+        self.size_slider, self.size_spin = self._create_slider_row(1, 60)
         geom_layout.addRow("Size / Length:", self._wrap_row(self.size_slider, self.size_spin))
 
         self.thickness_slider, self.thickness_spin = self._create_slider_row(1, 15)
         geom_layout.addRow("Line Thickness:", self._wrap_row(self.thickness_slider, self.thickness_spin))
 
-        self.gap_slider, self.gap_spin = self._create_slider_row(0, 40)
+        self.gap_slider, self.gap_spin = self._create_slider_row(-5, 40)
         geom_layout.addRow("Center Gap:", self._wrap_row(self.gap_slider, self.gap_spin))
 
         dot_row = QHBoxLayout()
@@ -463,6 +467,7 @@ class SettingsWindow(QMainWindow):
                 self.shape_combo.setCurrentIndex(i)
                 break
 
+        self.scale_slider.setValue(getattr(s, "scale", 100))
         self.size_slider.setValue(s.size)
         self.thickness_slider.setValue(s.thickness)
         self.gap_slider.setValue(s.gap)
@@ -511,6 +516,7 @@ class SettingsWindow(QMainWindow):
             return
         s = self.config_manager.settings
         s.shape = self.shape_combo.currentData()
+        s.scale = self.scale_slider.value()
         s.size = self.size_slider.value()
         s.thickness = self.thickness_slider.value()
         s.gap = self.gap_slider.value()

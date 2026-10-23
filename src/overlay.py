@@ -38,14 +38,15 @@ def draw_crosshair_painter(
     outline_color = QColor(settings.outline_color)
     outline_color.setAlpha(alpha)
 
-    size = float(settings.size)
-    thickness = float(settings.thickness)
-    gap = float(settings.gap)
+    scale_factor = max(0.15, min(3.0, float(getattr(settings, "scale", 100)) / 100.0))
+    size = float(settings.size) * scale_factor
+    thickness = max(0.5, float(settings.thickness) * scale_factor)
+    gap = float(settings.gap) * scale_factor
     if ads_active and settings.ads_dynamic:
-        gap = max(0.0, round(gap * 0.6))
+        gap = gap * 0.6
 
     outline_on = settings.outline_enabled and settings.outline_thickness > 0
-    outline_w = float(settings.outline_thickness) * 2.0
+    outline_w = float(settings.outline_thickness) * 1.5 * scale_factor
 
     def draw_stroked_line(x1: float, y1: float, x2: float, y2: float) -> None:
         if outline_on:
@@ -53,8 +54,8 @@ def draw_crosshair_painter(
                 outline_color,
                 thickness + outline_w,
                 Qt.PenStyle.SolidLine,
-                Qt.PenCapStyle.RoundCap,
-                Qt.PenJoinStyle.RoundJoin,
+                Qt.PenCapStyle.FlatCap,
+                Qt.PenJoinStyle.MiterJoin,
             )
             painter.setPen(out_pen)
             painter.drawLine(QPointF(x1, y1), QPointF(x2, y2))
@@ -63,8 +64,8 @@ def draw_crosshair_painter(
             main_color,
             thickness,
             Qt.PenStyle.SolidLine,
-            Qt.PenCapStyle.RoundCap,
-            Qt.PenJoinStyle.RoundJoin,
+            Qt.PenCapStyle.FlatCap,
+            Qt.PenJoinStyle.MiterJoin,
         )
         painter.setPen(in_pen)
         painter.drawLine(QPointF(x1, y1), QPointF(x2, y2))
@@ -97,7 +98,7 @@ def draw_crosshair_painter(
 
     # 2. Circle (○) or Circle + Cross (⊕)
     if shape in ("circle", "circle_cross"):
-        circle_radius = max(2.0, size)
+        circle_radius = max(0.5, size)
         draw_stroked_circle(circle_radius)
 
     # 3. Chevron (^)
@@ -123,11 +124,11 @@ def draw_crosshair_painter(
 
     # 5. Center Dot (either standalone 'dot' shape or dot_enabled toggle)
     if shape == "dot" or settings.dot_enabled:
-        dot_r = float(settings.dot_size)
+        dot_r = max(0.4, float(settings.dot_size) * scale_factor * 0.65)
         if outline_on:
             painter.setPen(Qt.PenStyle.NoPen)
             painter.setBrush(QBrush(outline_color))
-            out_r = dot_r + float(settings.outline_thickness)
+            out_r = dot_r + (float(settings.outline_thickness) * 0.75 * scale_factor)
             painter.drawEllipse(QPointF(cx, cy), out_r, out_r)
 
         painter.setPen(Qt.PenStyle.NoPen)
