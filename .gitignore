@@ -9,9 +9,8 @@ venv/
 env/
 ENV/
 
-# PyInstaller / Packaging
+# PyInstaller / Packaging (keep dist/VD_Crosshair.exe tracked so friends can download from GitHub)
 build/
-dist/
 *.spec
 
 # User local runtime config (keep default presets in code, ignore user local overrides if desired)
