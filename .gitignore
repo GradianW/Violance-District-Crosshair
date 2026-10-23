@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# PyInstaller / Packaging
+build/
+dist/
+*.spec
+
+# User local runtime config (keep default presets in code, ignore user local overrides if desired)
+# Uncomment below if you don't want local config.json tracked:
+config.json
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
